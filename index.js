@@ -58,3 +58,15 @@ app.post('/api/mahasiswa', (req, res) => {
     });  
 });
 
+app.delete('/api/mahasiswa/:id', (req, res) => {  
+    const userID = req.params.id;  
+
+   db.query('DELETE FROM biodata WHERE id = ?', [userID], (err, result) => {  
+        if (err) {  
+            console.error('Error executing query:' + err.stack);  
+            return res.status(500).send('Error deleting mahasiswa');  
+        }
+        res.json({ message: `Mahasiswa with ID: ${userID} deleted.` });  
+    });  
+});
+
