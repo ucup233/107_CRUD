@@ -70,3 +70,19 @@ app.delete('/api/mahasiswa/:id', (req, res) => {
     });  
 });
 
+app.put('/api/mahasiswa/:id', (req, res) => {  
+    const userID = req.params.id;  
+    const { nama, alamat, agama } = req.body;  
+    db.query(  
+        'UPDATE biodata SET nama = ?, alamat = ?, agama = ? WHERE id = ?',  
+        [nama, alamat, agama, userID],  
+        (err, result) => {  
+            if (err) {  
+                console.error('Error executing query:' + err.stack);  
+                return res.status(500).send('Error updating mahasiswa');  
+            }  
+            res.json({ message: `Mahasiswa with ID: ${userID} updated.` });  
+        }  
+    );  
+});
+
