@@ -1,9 +1,17 @@
 const express = require('express');
 let mysql = require('mysql2');
 const app = express();
-const PORT = 3001;
+const PORT = 5001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const db = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '12345678',
+  database: 'Mahasiswa',
+  port: '3306'
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -13,13 +21,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-let db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '12345678',
-  database: 'Mahasiswa',
-  port: 3306
-});
+
 
 db.connect((err) => {
   if (err) {
@@ -30,7 +32,9 @@ db.connect((err) => {
 });
 
 app.get('/api/mahasiswa', (req, res) => {
+  
   const sql = 'SELECT * FROM biodata';
+  
   db.query(sql, (err, results) => {
     if (err) {
         console.error('Error executing query:' + err.stack);
@@ -85,4 +89,3 @@ app.put('/api/mahasiswa/:id', (req, res) => {
         }  
     );  
 });
-
